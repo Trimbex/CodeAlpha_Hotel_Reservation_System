@@ -28,8 +28,8 @@ public class HotelChain
             "Chicago",
             "Miami",
             "San Francisco"};
-    private ArrayList<Hotel> hotels; // Chain contains Hotels
-    private static ArrayList<HotelChain> chains;
+    public ArrayList<Hotel> hotels; // Chain contains Hotels
+    public static ArrayList<HotelChain> chains;
     private static int NumberOfChains;
 
     private String ChainName;
@@ -160,11 +160,30 @@ public class HotelChain
                return chain;
             }
         }
-        System.out.println("Chain not found");
+       // System.out.println("Chain not found");
         return null;
 
     }
 
 
+    public HotelChain getChainByName(String chainName) {
+        for (HotelChain chain : chains) {
+            if (chain.getChainName().equalsIgnoreCase(chainName)) {
+                return chain;
+            }
+        }
+      //  System.out.println("Chain not found");
+        return null;
+    }
+
+    public Hotel getHotelByID(int hotelID) {
+        for (Hotel hotel : hotels) {
+            if (hotel.getHotelID() == hotelID) {
+                return hotel;
+            }
+        }
+      //  System.out.println("Hotel Not Found");
+        return null;
+    }
 
 }

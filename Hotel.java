@@ -1,5 +1,4 @@
-import java.util.ArrayList;
-import java.util.Random;
+import java.util.*;
 
 public class Hotel extends HotelChain {
 
@@ -8,7 +7,9 @@ public class Hotel extends HotelChain {
 
     private int NumberOfRooms;
 
-    private ArrayList<Room> rooms;
+    public ArrayList<Room> rooms;
+
+    public ArrayList<Customer> customers = new ArrayList<>();
 
     private String Location;
     private String PriceRange;
@@ -146,4 +147,129 @@ public class Hotel extends HotelChain {
             System.out.format(format, rooms.getID(), rooms.getOccupancy(), rooms.getLayout(), rooms.getBedSize(), rooms.getPrice() + "$", rooms.isAvailable());
         }
     }
+
+    public void DisplayRoomsInHotel(ArrayList<Room> roomz)
+    {
+        String format = "%-12s %-10s %-20s %-20s %-12s %-12s\n";
+        System.out.format(format, "Room Number", "Occupancy", "Layout", "Bed Size", "Price/Night", "Availability");
+        System.out.println("---------------------------------------------------------------------------------------");
+
+        for(Room rooms : roomz)
+        {
+            System.out.format(format, rooms.getID(), rooms.getOccupancy(), rooms.getLayout(), rooms.getBedSize(), rooms.getPrice() + "$", rooms.isAvailable());
+        }
+    }
+
+
+
+    public Room findRoomByID(int RoomID)
+    {
+        for(Room room: rooms)
+        {
+            if(room.getID() == RoomID)
+            {
+                return room;
+            }
+        }
+
+        System.out.println("Room Not Found");
+        return null;
+    }
+
+    public Customer getCustomerByID(int id) {
+        for (Customer customer : customers) {
+            if (customer.getID() == id) {
+                return customer;
+            }
+        }
+        System.out.println("Customer Not Found");
+        return null;
+    }
+
+    private ArrayList<Room> modifiedrooms;
+
+    public void initializeModifiedRooms() {
+        modifiedrooms = new ArrayList<>();
+        modifiedrooms.addAll(rooms);
+    }
+    void Sort()
+    {
+        initializeModifiedRooms();
+      //  Scanner input = new Scanner(System.in);
+      //  int choice = input.nextInt();
+        System.out.println("Sorted By Price");
+    //    System.out.println("P.S: Type 0 to reset list");
+
+
+
+                modifiedrooms.sort(Comparator.comparing(Room::getPrice));
+                DisplayRoomsInHotel(modifiedrooms);
+
+
+
+        }
+
+
+
+
+    void Filter() {
+        Scanner input = new Scanner(System.in);
+        System.out.println("Choose filter criteria:");
+        System.out.println("1. Occupancy");
+        System.out.println("2. Layout");
+        System.out.println("3. Bed Size");
+        int choice = input.nextInt();
+
+        switch (choice) {
+            case 1 -> {
+                System.out.println("Enter occupancy (Single/Double/Triple/Quad/Queen/King):");
+                String occupancyFilter = input.next();
+                filterByOccupancy(occupancyFilter);
+            }
+            case 2 -> {
+                System.out.println("Enter layout:");
+                String layoutFilter = input.next();
+                filterByLayout(layoutFilter);
+            }
+            case 3 -> {
+                System.out.println("Enter bed size:");
+                String bedSizeFilter = input.next();
+                filterByBedSize(bedSizeFilter);
+            }
+            default -> System.out.println("Invalid choice.");
+        }
+    }
+
+    private void filterByOccupancy(String occupancy) {
+        ArrayList<Room> filteredRooms = new ArrayList<>();
+        for (Room room : rooms) {
+            if (room.getOccupancy().equalsIgnoreCase(occupancy)) {
+                filteredRooms.add(room);
+            }
+        }
+        DisplayRoomsInHotel(filteredRooms);
+    }
+
+    private void filterByLayout(String layout) {
+        ArrayList<Room> filteredRooms = new ArrayList<>();
+        for (Room room : rooms) {
+            if (room.getLayout().equalsIgnoreCase(layout)) {
+                filteredRooms.add(room);
+            }
+        }
+        DisplayRoomsInHotel(filteredRooms);
+    }
+
+    private void filterByBedSize(String bedSize) {
+        ArrayList<Room> filteredRooms = new ArrayList<>();
+        for (Room room : rooms) {
+            if (room.getBedSize().equalsIgnoreCase(bedSize)) {
+                filteredRooms.add(room);
+            }
+        }
+        DisplayRoomsInHotel(filteredRooms);
+    }
+
+
+
 }
